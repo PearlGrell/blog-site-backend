@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {        
+    "module": "NodeNext",
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "moduleResolution": "nodenext",
+    "esModuleInterop": false,
+    "outDir": "build",
+    "strict": true,
+    "sourceMap": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "build"]
+}
