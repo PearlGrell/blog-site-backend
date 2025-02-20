@@ -15,6 +15,10 @@ export async function getUsers(req: Request, res: Response, next: NextFunction) 
             }
         });
 
+        if(users.length === 0){
+            return next(new StatusError(404, "Users not found"))
+        }
+
         return respond({
             message: "Users found",
             status_code: 200,
