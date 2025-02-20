@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsc",
+    "predeploy": "prisma generate --no-engine && tsc && vercel build",
+    "postinstall": "prisma generate --no-engine",
+    "build": "prisma generate --no-engine && tsc && vercel build",
     "start": "bun --hot ./src/index.ts",
     "db:pull": "prisma db pull",
-    "db:generate": "prisma generate",
+    "db:generate": "prisma generate  --no-engine",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio"
   },
