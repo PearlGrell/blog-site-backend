@@ -5,16 +5,20 @@ import { sign } from "../helpers/token.helper.js";
 import respond from "../middlewares/response.middleware.js";
 export async function getUsers(req, res, next) {
     try {
+        const { limit, offset } = req.query;
         const users = await client.users.findMany({
             select: {
                 id: true,
                 name: true,
                 email: true
-            }
+            },
+            skip: Number(offset) || undefined,
+            take: Number(limit) || undefined
         });
-        if (users.length === 0) {
-            return next(new StatusError(404, "Users not found"));
-        }
+        if (limit)
+            if (users.length === 0) {
+                return next(new StatusError(404, "Users not found"));
+            }
         return respond({
             message: "Users found",
             status_code: 200,
@@ -37,7 +41,6 @@ export async function createUser(req, res, next) {
         await client.users.create({
             data: user.toJSON()
         });
-        console.log(user.id);
         const token = sign(user.id);
         return respond({
             message: "User created successfully",

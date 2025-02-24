@@ -4,7 +4,11 @@ import respond from "../middlewares/response.middleware.js";
 import { StatusError } from "../middlewares/error.middleware.js";
 export async function getPosts(req, res, next) {
     try {
-        const posts = await client.posts.findMany();
+        const { limit, offset } = req.query;
+        const posts = await client.posts.findMany({
+            skip: Number(offset) || undefined,
+            take: Number(limit) || undefined,
+        });
         if (posts.length === 0) {
             return next(new StatusError(404, "No posts found"));
         }
