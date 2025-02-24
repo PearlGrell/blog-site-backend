@@ -18,6 +18,7 @@ app.use('/api/post', postRouter);
 app.use(ErrorMiddleware);
 app.use(cors({
     origin: "*",
+    allowedHeaders: "*",
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }))
