@@ -1,6 +1,7 @@
 import express from 'express';
 import { settings } from './config/settings.js';
 import { environment } from './types.js';
+import cors from 'cors';
 import userRouter from './routes/user.route.js';
 import ErrorMiddleware from './middlewares/error.middleware.js';
 import postRouter from './routes/post.route.js';
@@ -15,6 +16,11 @@ app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);
 
 app.use(ErrorMiddleware);
+app.use(cors({
+    origin: "*",
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}))
 
 app.listen(port, () => {
     if (settings.environment == environment.DEV) {
