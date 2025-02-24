@@ -7,13 +7,20 @@ import respond from "../middlewares/response.middleware.js";
 
 export async function getUsers(req: Request, res: Response, next: NextFunction) {
     try{
+
+        const {limit, offset} = req.query;
+
         const users = await client.users.findMany({
             select: {
                 id: true,
                 name: true,
                 email: true
-            }
+            },
+            skip: Number(offset) || undefined,
+            take: Number(limit) || undefined
         });
+
+        if(limit)
 
         if(users.length === 0){
             return next(new StatusError(404, "Users not found"))
@@ -44,8 +51,6 @@ export async function createUser(req: Request, res: Response, next: NextFunction
         await client.users.create({
             data: user.toJSON()
         });
-
-        console.log(user.id);
 
         const token = sign(user.id!);
 
